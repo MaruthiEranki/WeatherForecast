@@ -4,10 +4,10 @@ export class Constants {
   units = 'metric';
 }
 export class Report {
-  tempMin = 0;
-  tempMax = 0;
-  pressure = 0;
-  humidity = 0;
-  date = null;
-  avg = 0;
+  tempMin = 1;
+  tempMax = 1;
+  pressure = 1;
+  humidity = 1;
+  date = 'dd-mm-YYYY';
+  avg = 1;
 }

@@ -14,11 +14,19 @@ export class WeatherForecastComponent implements OnInit {
 
   constructor(private service: OpenweatherService,
               private snackBar: MatSnackBar,
-              private datePipe: DatePipe) { }
+              private datePipe: DatePipe,
+    ) { }
 
   weatherForm = new FormGroup(
     {
-      city: new FormControl('', Validators.required)
+      city: new FormControl('', [Validators.required])
+    }
+  );
+
+  testForm = new FormGroup(
+    {
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     }
   );
 

@@ -7,7 +7,7 @@
     <mat-form-field appearance="legacy" class="matForm">
         <input formControlName="city" matInput placeholder="City">
     </mat-form-field>
-    <button (click)="formSubmitted()" mat-button color="primary" mat-raised-button>Submit</button>
+    <button class="submit-button" [disabled]="!weatherForm.valid" (click)="formSubmitted()" mat-button color="primary" mat-raised-button>Submit</button>
   </form>
 </div>
 
