@@ -1,8 +1,8 @@
-import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {async, ComponentFixture, fakeAsync, flushMicrotasks, TestBed, tick} from '@angular/core/testing';
 
 import { WeatherForecastComponent } from './weather-forecast.component';
 import {AppModule} from '../../app.module';
-import {Constants, Report} from '../../helpers/Constants';
+import {Report} from '../../helpers/Constants';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -120,4 +120,65 @@ describe('WeatherForecastComponent', () => {
     fixture.detectChanges();
     expect(submitButton.nativeElement.disabled).toBeFalsy('Button disabled');
   });
+
+  it ('using done fun', done => {
+    let counter = 0;
+    Promise.resolve().then(() => {
+      setTimeout(() => {
+        counter = counter + 1;
+        done();
+        expect(counter).toBe(1);
+      }, 1000);
+    });
+
+    Promise.resolve().then(() => {
+      setTimeout(() => {
+        counter = counter + 1;
+        done();
+        expect(counter).toBe(2);
+      }, 1000);
+    });
+  });
+
+  it('using asnync', async () => {
+    let counter = 0;
+    const p = await Promise.resolve().then(() => {
+      setTimeout(() => {
+        counter = counter + 1;
+        expect(counter).toBe(1);
+      }, 1000);
+    });
+
+    const p2 = await Promise.resolve().then(() => {
+      setTimeout(() => {
+        counter = counter + 1;
+        expect(counter).toBe(2);
+      }, 1000);
+    });
+    expect(counter).toEqual(0);
+  });
+
+  it ('Fake Async', fakeAsync(() => {
+    let counter = 0;
+    Promise.resolve().then(() => {
+      counter = counter + 10;
+      setTimeout(() => {
+        counter =  counter + 1;
+      }, 1000);
+    });
+
+    expect(counter).toBe(0);
+
+    flushMicrotasks();
+
+    expect(counter).toBe(10);
+
+    tick(500);
+
+    expect(counter).toBe(10);
+
+    tick(500);
+
+    expect(counter).toBe(11);
+  }));
 });
